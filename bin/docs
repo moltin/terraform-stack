@@ -1,0 +1,38 @@
+#!/bin/bash
+
+modules=$(find aws -name "*.tf" | xargs -I % dirname % | sort | uniq)
+
+echo "Generating docs for Terraform Modules"
+printf "# Terraform Stack\n\n" > README.md
+printf "###INTRO###\n\n" >> README.md # intro section tag that will be remplace with the content from the introduction doc file
+printf "## Available Modules\n\n" >> README.md
+
+for path in $modules; do
+    echo "generating docs for $path"
+    group=$(echo $path | awk -F "/" '{print $2}')                                     # get the group of the module (first bit of the path after the provider (aws/azure))
+    group=$(echo $group | sed -r 's/(dhcp|nat|vpc|elb|rds|http|https|db|ec2|ssh)/\U\1/g') # uppercase key words
+    group=$(echo $group | sed -e "s/\b\(.\)/\U\1/g")                                  # camelCase the group name of the module
+
+    name=$(echo "$path" | awk '{print $NF}' FS=/)                                   # get the name of the module (last bit of the path to the module)
+    name=${name//_/ }                                                               # subtitute `_` for white spaces
+    name=$(echo $name | sed -r 's/sg/Security Group - /g')                          # rename `sg` to `Security Group` for clarity
+    name=$(echo $name | sed -r 's/(dhcp|nat|vpc|elb|rds|http|https|db|ec2|ssh)/\U\1/g') # uppercase key words
+    name=$(echo $name | sed -e "s/\b\(.\)/\U\1/g")                                  # camelCase all words on the module name
+
+    link=${name// /-}                             # convert module title to a compatible github markdown anchor (white spaces to `-` and lowercases)
+    link=$(echo $link | sed -e 's/\(.*\)/\L\1/g') # lowercase all words on the link
+
+    printf "* [$name](#$link)\n" >> README.md          # print each available module index entry
+    docs+="## $name\n\n"$(terraform-docs md $path)"\n\n" # store in buffer each module documentation
+done
+printf "\n" >> README.md     # separate available modules list from begining of modules documentation
+echo -e "$docs" >> README.md # dump modules documentation
+
+printf "###AUTHORS###\n\n" >> README.md # resources section tag that will be remplace with the content from the authors doc file
+printf "###LICENSE###\n\n" >> README.md # resources section tag that will be remplace with the content from the license doc file
+printf "###RESOURCES###\n" >> README.md # resources section tag that will be remplace with the content from the resources doc file
+
+awk 'FNR==NR{s=(!s)?$0:s RS $0;next} /###INTRO###/{sub(/###INTRO###/, s)} 1' docs/INTRO.md README.md > README.tmp && mv README.tmp README.md
+awk 'FNR==NR{s=(!s)?$0:s RS $0;next} /###RESOURCES###/{sub(/###RESOURCES###/, s)} 1' docs/RESOURCES.md README.md > README.tmp && mv README.tmp README.md
+awk 'FNR==NR{s=(!s)?$0:s RS $0;next} /###AUTHORS###/{sub(/###AUTHORS###/, s)} 1' docs/AUTHORS.md README.md > README.tmp && mv README.tmp README.md
+awk 'FNR==NR{s=(!s)?$0:s RS $0;next} /###LICENSE###/{sub(/###LICENSE###/, s)} 1' docs/LICENSE.md README.md > README.tmp && mv README.tmp README.md
