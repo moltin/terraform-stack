@@ -35,9 +35,9 @@ variable "port" {
     description = "The port on which the DB accepts connections"
 }
 
-variable "public_subnet_ids" {
+variable "private_subnet_ids" {
     type = "list"
-    description = "A list of public subnet IDs"
+    description = "A list of private subnet IDs to place in the DB cluster"
 }
 
 variable "vpc_id" {
@@ -89,7 +89,7 @@ module "db_subnet_group" {
     source = "github.com/moltin/terraform-modules/aws/rds/db_subnet_group"
 
     name       = "${var.name}"
-    subnet_ids = "${var.public_subnet_ids}"
+    subnet_ids = "${var.private_subnet_ids}"
 
     tags {
         "Cluster"     = "rds"

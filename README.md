@@ -70,7 +70,7 @@ This module offer us the basic network infrastructure to build our system
 | master_username | Username for the master DB user | - | yes |
 | name | The prefix name for all resources | - | yes |
 | port | The port on which the DB accepts connections | `3306` | no |
-| public_subnet_ids | A list of public subnet IDs | - | yes |
+| private_subnet_ids | A list of private subnet IDs to place in the DB cluster | - | yes |
 | rds_cluster_instance_count |  | `2` | no |
 | skip_final_snapshot | There is actually an issue with this option that won't allow you to destroy your RDS cluster unless you specified `final_snapshot_identifier`, see more here [Terraform ignores skip_final_snapshot so it's impossible to delete rds db instance](https://github.com/hashicorp/terraform/issues/5417) | `true` | no |
 | vpc_id | The VPC ID to create in | - | yes |
@@ -100,10 +100,12 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
   - [Terraform Modules for Fun and Profit](http://blog.lusis.org/blog/2015/10/12/terraform-modules-for-fun-and-profit/)
   - [How to create reusable infrastructure with Terraform modules](https://blog.gruntwork.io/how-to-create-reusable-infrastructure-with-terraform-modules-25526d65f73d)
   - [Infrastructure Packages](https://blog.gruntwork.io/gruntwork-infrastructure-packages-7434dc77d0b1)
-  - [Terraform: Cloud made easy ](http://blog.contino.io/terraform-cloud-made-easy-part-one)
+  - [Terraform: Cloud made easy](http://blog.contino.io/terraform-cloud-made-easy-part-one)
   - [Deploying Rancher HA in production with AWS, Terraform, and RancherOS](https://thisendout.com/2016/12/10/update-deploying-rancher-in-production-aws-terraform-rancheros/)
   - [Terraform, VPC, and why you want a tfstate file per env](https://charity.wtf/2016/03/30/terraform-vpc-and-why-you-want-a-tfstate-file-per-env/)
 
+- Non directly related but useful
+  - [Practical VPC Design](https://medium.com/aws-activate-startup-blog/practical-vpc-design-8412e1a18dcc)
 
 - GitHub repositories
   - [segmentio/terraform-docs](https://github.com/segmentio/terraform-docs)
