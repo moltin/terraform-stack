@@ -70,9 +70,9 @@ This module offer us the basic network infrastructure to build our system
 | master_username | Username for the master DB user | - | yes |
 | name | The prefix name for all resources | - | yes |
 | port | The port on which the DB accepts connections | `3306` | no |
-| private_subnet_ids | A list of private subnet IDs to place in the DB cluster | - | yes |
 | rds_cluster_instance_count |  | `2` | no |
 | skip_final_snapshot | There is actually an issue with this option that won't allow you to destroy your RDS cluster unless you specified `final_snapshot_identifier`, see more here [Terraform ignores skip_final_snapshot so it's impossible to delete rds db instance](https://github.com/hashicorp/terraform/issues/5417) | `true` | no |
+| subnet_ids | A list of subnet IDs to place in the DB cluster | - | yes |
 | vpc_id | The VPC ID to create in | - | yes |
 
 ## Outputs
