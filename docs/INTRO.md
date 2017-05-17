@@ -5,3 +5,11 @@ If you need to build the network infrastructure to run your instances in, you ca
 > Note: If you are looking for simpler modules that accomplish a single responsibility we built as well [terraform-modules](https://github.com/moltin/terraform-modules)
 
 This project has been highly inspired by the work of others that have decided to share with the community their work, check the [resources](#resources) section for more info.
+
+## Index
+
+- [Available Modules](#available-modules)
+- [Changelog](CHANGELOG.md)
+- [Authors](#authors)
+- [License](#license)
+- [Resources](#resources)

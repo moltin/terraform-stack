@@ -6,7 +6,7 @@
  * - [AWS DB Subnet Group](https://www.terraform.io/docs/providers/aws/r/db_subnet_group.html)
  * - [AWS Security Group](https://www.terraform.io/docs/providers/aws/r/security_group.html) to allow access to the DB port from other security groups
  *
- * This module offer us the basic network infrastructure to build our system
+ * This module offer us a RDS DB Cluster
  */
 
 variable "name" {

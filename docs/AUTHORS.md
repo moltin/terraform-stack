@@ -1,4 +1,4 @@
-# Authors
+## Authors
 
 * **Israel Sotomayor** - *Initial work* - [zot24](https://github.com/zot24)
 
