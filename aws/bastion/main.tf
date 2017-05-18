@@ -53,23 +53,37 @@ variable "distribution" {
     description = "Ubuntu distribution to be installed"
 }
 
-module "instance" {
-    source = "git::git@github.com:moltin/terraform-modules.git//aws/compute/ec2_instance?ref=0.1.7"
+variable "vpc_security_group_ids" {
+    type = "list"
+    description = "A list of security group IDs to associate with"
+}
+
+resource "aws_instance" "bastion" {
+    count = "${var.instance_count}"
 
     ami                    = "${module.ami.id}"
-    name                   = "${var.name}-bastion"
     key_name               = "${var.key_name}"
-    subnet_ids             = "${var.subnet_ids}"
+    subnet_id              = "${element(sort(var.subnet_ids), count.index)}"
     instance_type          = "${var.instance_type}"
-    instance_count         = "${var.instance_count}"
-    vpc_security_group_ids = ["${module.sg_ssh.id}"]
+    vpc_security_group_ids = ["${module.sg_ssh.id}", "${var.vpc_security_group_ids}"]
 
     associate_public_ip_address = true
 
+    root_block_device {
+        volume_size           = 16
+        delete_on_termination = true
+    }
+
+    lifecycle {
+        ignore_changes = ["ami"]
+    }
+
     tags {
+        "Name"        = "${format("%s-bastion-ec2-instance-%03d", var.name, count.index)}"
         "Cluster"     = "security"
         "Role"        = "bastion"
         "Audience"    = "public"
+        "Terraform"   = "true"
         "Environment" = "${var.environment}"
     }
 }
@@ -98,7 +112,7 @@ module "ami" {
 output "user" { value = "ubuntu" }
 
 // Private IP address to associate with the instance in a VPC
-output "private_ip" { value = "${module.instance.private_ip}" }
+output "private_ip" { value = "${aws_instance.bastion.private_ip}" }
 
 // The public IP address assigned to the instance
-output "public_ip"  { value = "${module.instance.public_ip}" }
+output "public_ip"  { value = "${aws_instance.bastion.public_ip}" }
