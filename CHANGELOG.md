@@ -1,6 +1,19 @@
 # Changelog
 
 
+## 0.1.4 (2017-05-18)
+
+### Fix
+
+* Avoid recreation of hosts if Ubuntu AMI gets updated. [Israel Sotomayor]
+
+  See more info in this Terraform [issue](https://github.com/hashicorp/terraform/issues/13044#issuecomment-289046234)
+
+* Editorconfig file. [Israel Sotomayor]
+
+* Forgotten spaces on Makefile. [Israel Sotomayor]
+
+
 ## 0.1.3 (2017-05-17)
 
 ### New
