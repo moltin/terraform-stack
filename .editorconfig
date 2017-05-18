@@ -23,7 +23,8 @@ max_line_length = 0
 trim_trailing_whitespace = false
 
 # Tab indentation (no size specified)
-[Makefile, *.mk]
+[{Makefile, *.mk}]
+tab_width = 2
 indent_style = tab
 
 [COMMIT_EDITMSG]
