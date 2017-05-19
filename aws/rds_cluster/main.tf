@@ -9,8 +9,12 @@
  * This module offer us a RDS DB Cluster
  */
 
-variable "name" {
-    description = "The prefix name for all resources"
+variable "backup_retention_period" {
+    description = "The backup retention period"
+}
+
+variable "database_name" {
+    description = " The name for your database of up to 8 alpha-numeric characters. If you do not provide a name, Amazon RDS will not create a database in the DB cluster you are creating"
 }
 
 variable "environment" {
@@ -18,8 +22,18 @@ variable "environment" {
     description = "The environment where we are building the resource"
 }
 
-variable "database_name" {
-    description = " The name for your database of up to 8 alpha-numeric characters. If you do not provide a name, Amazon RDS will not create a database in the DB cluster you are creating"
+variable "final_snapshot_identifier" {
+    description = "The name of your final DB snapshot when this DB cluster is deleted. If omitted, no final snapshot will be made"
+}
+
+// A list of security groups to allow access to the ingress rule on the RDS
+// cluster instance security group
+variable "ingress_allow_security_groups" {
+    type = "list"
+}
+
+variable "instance_class" {
+    default = "db.r3.large"
 }
 
 variable "master_password" {
@@ -30,9 +44,38 @@ variable "master_username" {
     description = "Username for the master DB user"
 }
 
+variable "name" {
+    description = "The prefix name for all resources"
+}
+
 variable "port" {
     default = 3306
     description = "The port on which the DB accepts connections"
+}
+
+variable "preferred_backup_window" {
+    description = "The time window on which backups will be made (HH:mm-HH:mm)"
+}
+
+variable "preferred_maintenance_window" {
+    description = "The weekly time range during which system maintenance can occur, in (UTC) e.g. wed:04:00-wed:04:30"
+}
+
+variable "rds_cluster_instance_count" {
+    default  = 2
+    description = "The number of instances to create"
+}
+
+// Determines whether a final DB snapshot is created before the DB cluster is
+// deleted. If true is specified, no DB snapshot is created. If false is specified,
+// a DB snapshot is created before the DB cluster is deleted, using the value
+// from final_snapshot_identifier, by default it's `true`.
+//
+// There is actually an issue with this option that won't allow you to destroy
+// your RDS cluster unless you specified `final_snapshot_identifier`, see more
+// here [Terraform ignores skip_final_snapshot so it's impossible to delete rds db instance](https://github.com/hashicorp/terraform/issues/5417)
+variable "skip_final_snapshot" {
+    default = true
 }
 
 variable "subnet_ids" {
@@ -44,35 +87,20 @@ variable "vpc_id" {
     description = "The VPC ID to create in"
 }
 
-// A list of security groups to allow access to the ingress rule on the RDS cluster instance security group
-variable "ingress_allow_security_groups" {
-    type = "list"
-}
-
-// There is actually an issue with this option that won't allow you to destroy your RDS cluster
-// unless you specified `final_snapshot_identifier`, see more here [Terraform ignores skip_final_snapshot so it's impossible to delete rds db instance](https://github.com/hashicorp/terraform/issues/5417)
-variable "skip_final_snapshot" {
-    default = true
-}
-
-variable "rds_cluster_instance_count" {
-    default  = 2
-}
-
-variable "instance_class" {
-    default = "db.r3.large"
-}
-
 module "rds_cluster" {
     source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/rds/rds_cluster?ref=0.1.11"
 
-    name                   = "${var.name}"
-    database_name          = "${var.database_name}"
-    master_username        = "${var.master_username}"
-    master_password        = "${var.master_password}"
-    skip_final_snapshot    = "${var.skip_final_snapshot}"
-    db_subnet_group_name   = "${module.db_subnet_group.id}"
-    vpc_security_group_ids = "${module.sg_rds.id}"
+    name                         = "${var.name}"
+    database_name                = "${var.database_name}"
+    master_username              = "${var.master_username}"
+    master_password              = "${var.master_password}"
+    skip_final_snapshot          = "${var.skip_final_snapshot}"
+    db_subnet_group_name         = "${module.db_subnet_group.id}"
+    vpc_security_group_ids       = "${module.sg_rds.id}"
+    backup_retention_period      = "${var.backup_retention_period}"
+    preferred_backup_window      = "${var.preferred_backup_window}"
+    final_snapshot_identifier    = "${var.final_snapshot_identifier}"
+    preferred_maintenance_window = "${var.preferred_maintenance_window}"
 }
 
 module "rds_cluster_instance" {
@@ -113,8 +141,8 @@ module "sg_rds" {
     }
 }
 
-// The port on which the DB accepts connections
-output "port" { value = "${module.rds_cluster.port}" }
-
 // The DNS address of the RDS instance
 output "endpoint" { value = "${module.rds_cluster.endpoint}" }
+
+// The port on which the DB accepts connections
+output "port" { value = "${module.rds_cluster.port}" }

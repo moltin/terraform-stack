@@ -8,6 +8,14 @@ If you need to build the network infrastructure to run your instances in, you ca
 
 This project has been highly inspired by the work of others that have decided to share with the community their work, check the [resources](#resources) section for more info.
 
+## Index
+
+- [Available Modules](#available-modules)
+- [Changelog](CHANGELOG.md)
+- [Authors](#authors)
+- [License](#license)
+- [Resources](#resources)
+
 ## Available Modules
 
 * [Bastion](#bastion)
@@ -41,6 +49,7 @@ If you ever need to access an instance directly, you can do it by `tunneling` th
 | subnet_ids | A list of subnet IDs to place in the DB cluster | - | yes |
 | vpc_cidr | The cidr block of the desired VPC | `<list>` | no |
 | vpc_id | The VPC ID to create in | - | yes |
+| vpc_security_group_ids | A list of security group IDs to associate with | - | yes |
 
 ## Outputs
 
@@ -99,16 +108,20 @@ This module offer us a RDS DB Cluster
 
 | Name | Description | Default | Required |
 |------|-------------|:-----:|:-----:|
+| backup_retention_period | The backup retention period | - | yes |
 | database_name | The name for your database of up to 8 alpha-numeric characters. If you do not provide a name, Amazon RDS will not create a database in the DB cluster you are creating | - | yes |
 | environment | The environment where we are building the resource | `production` | no |
+| final_snapshot_identifier | The name of your final DB snapshot when this DB cluster is deleted. If omitted, no final snapshot will be made | - | yes |
 | ingress_allow_security_groups | A list of security groups to allow access to the ingress rule on the RDS cluster instance security group | - | yes |
 | instance_class |  | `db.r3.large` | no |
 | master_password | Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file | - | yes |
 | master_username | Username for the master DB user | - | yes |
 | name | The prefix name for all resources | - | yes |
 | port | The port on which the DB accepts connections | `3306` | no |
-| rds_cluster_instance_count |  | `2` | no |
-| skip_final_snapshot | There is actually an issue with this option that won't allow you to destroy your RDS cluster unless you specified `final_snapshot_identifier`, see more here [Terraform ignores skip_final_snapshot so it's impossible to delete rds db instance](https://github.com/hashicorp/terraform/issues/5417) | `true` | no |
+| preferred_backup_window | The time window on which backups will be made (HH:mm-HH:mm) | - | yes |
+| preferred_maintenance_window | The weekly time range during which system maintenance can occur, in (UTC) e.g. wed:04:00-wed:04:30 | - | yes |
+| rds_cluster_instance_count | The number of instances to create | `2` | no |
+| skip_final_snapshot | Determines whether a final DB snapshot is created before the DB cluster is deleted. If true is specified, no DB snapshot is created. If false is specified, a DB snapshot is created before the DB cluster is deleted, using the value from final_snapshot_identifier, by default it's `true`.<br><br>There is actually an issue with this option that won't allow you to destroy your RDS cluster unless you specified `final_snapshot_identifier`, see more here [Terraform ignores skip_final_snapshot so it's impossible to delete rds db instance](https://github.com/hashicorp/terraform/issues/5417) | `true` | no |
 | subnet_ids | A list of subnet IDs to place in the DB cluster | - | yes |
 | vpc_id | The VPC ID to create in | - | yes |
 
@@ -120,13 +133,13 @@ This module offer us a RDS DB Cluster
 | port | The port on which the DB accepts connections |
 
 
-# Authors
+## Authors
 
 * **Israel Sotomayor** - *Initial work* - [zot24](https://github.com/zot24)
 
 See also the list of [contributors](https://github.com/moltin/terraform-stack/contributors) who participated in this project.
 
-# License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/moltin/terraform-stack/blob/master/LICENSE) file for details
 
