@@ -89,7 +89,7 @@ resource "aws_instance" "bastion" {
 }
 
 module "sg_ssh" {
-    source = "git::git@github.com:moltin/terraform-modules.git//aws/networking/security_group/sg_ssh?ref=0.1.7"
+    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/networking/security_group/sg_ssh?ref=0.1.11"
 
     name     = "${var.name}"
     vpc_id   = "${var.vpc_id}"
@@ -103,7 +103,7 @@ module "sg_ssh" {
 }
 
 module "ami" {
-    source = "git::git@github.com:moltin/terraform-modules.git//aws/data/ubuntu_ami?ref=0.1.7"
+    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/data/ubuntu_ami?ref=0.1.11"
 
     distribution = "${var.distribution}"
 }
