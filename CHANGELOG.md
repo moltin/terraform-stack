@@ -1,6 +1,17 @@
 # Changelog
 
 
+## 0.1.5 (2017-05-19)
+
+### New
+
+* Backup and maintenance options. [Israel Sotomayor]
+
+### Changes
+
+* Update source URL to use SSH auth + ref version. [Israel Sotomayor]
+
+
 ## 0.1.4 (2017-05-18)
 
 ### Fix
