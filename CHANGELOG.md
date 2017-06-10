@@ -1,6 +1,19 @@
 # Changelog
 
 
+## 0.1.6 (2017-06-10)
+
+### Changes
+
+* Bump version of terraform modules to 0.2.0. [Israel Sotomayor]
+
+* Assign ingress cidr blocks on bastion ssh sg. [Israel Sotomayor]
+
+### Fix
+
+* Editorconfig file Makefile rule. [Israel Sotomayor]
+
+
 ## 0.1.5 (2017-05-19)
 
 ### New

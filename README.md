@@ -47,7 +47,6 @@ If you ever need to access an instance directly, you can do it by `tunneling` th
 | key_name | The name of the SSH key to use on the instance, e.g. moltin | - | yes |
 | name | The prefix name for all resources | - | yes |
 | subnet_ids | A list of subnet IDs to place in the DB cluster | - | yes |
-| vpc_cidr | The cidr block of the desired VPC | `<list>` | no |
 | vpc_id | The VPC ID to create in | - | yes |
 | vpc_security_group_ids | A list of security group IDs to associate with | - | yes |
 
@@ -64,8 +63,8 @@ If you ever need to access an instance directly, you can do it by `tunneling` th
 Network module that will create:
 
 - [AWS VPC](https://www.terraform.io/docs/providers/aws/r/vpc.html)
-- [AWS Private Subnet](https://www.terraform.io/docs/providers/aws/r/subnet.html)
 - [AWS Public Subnet](https://www.terraform.io/docs/providers/aws/r/subnet.html)
+- [AWS Private Subnet](https://www.terraform.io/docs/providers/aws/r/subnet.html)
 - [AWS NAT Gateway](https://www.terraform.io/docs/providers/aws/r/nat_gateway.html)
 - [AWS Internet Gateway](https://www.terraform.io/docs/providers/aws/r/internet_gateway.html)
 
