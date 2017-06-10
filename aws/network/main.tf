@@ -2,8 +2,8 @@
  * Network module that will create:
  *
  * - [AWS VPC](https://www.terraform.io/docs/providers/aws/r/vpc.html)
- * - [AWS Private Subnet](https://www.terraform.io/docs/providers/aws/r/subnet.html)
  * - [AWS Public Subnet](https://www.terraform.io/docs/providers/aws/r/subnet.html)
+ * - [AWS Private Subnet](https://www.terraform.io/docs/providers/aws/r/subnet.html)
  * - [AWS NAT Gateway](https://www.terraform.io/docs/providers/aws/r/nat_gateway.html)
  * - [AWS Internet Gateway](https://www.terraform.io/docs/providers/aws/r/internet_gateway.html)
  *

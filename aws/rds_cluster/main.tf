@@ -132,6 +132,7 @@ module "sg_rds" {
     name   = "${var.name}"
     port   = "${var.port}"
     vpc_id = "${var.vpc_id}"
+
     ingress_allow_security_groups = "${var.ingress_allow_security_groups}"
 
     tags {

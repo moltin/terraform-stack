@@ -29,11 +29,6 @@ variable "vpc_id" {
     description = "The VPC ID to create in"
 }
 
-variable "vpc_cidr" {
-    default = ["0.0.0.0/0"]
-    description = "The cidr block of the desired VPC"
-}
-
 variable "key_name" {
     description = "The name of the SSH key to use on the instance, e.g. moltin"
 }
@@ -91,9 +86,10 @@ resource "aws_instance" "bastion" {
 module "sg_ssh" {
     source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/networking/security_group/sg_ssh?ref=0.1.11"
 
-    name     = "${var.name}"
-    vpc_id   = "${var.vpc_id}"
-    vpc_cidr = "${var.vpc_cidr}"
+    name   = "${var.name}"
+    vpc_id = "${var.vpc_id}"
+
+    ingress_cidr_blocks = ["0.0.0.0/0"]
 
     tags {
         "Cluster"     = "security"
