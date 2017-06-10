@@ -44,7 +44,7 @@ variable "vpc_cidr" {
 }
 
 module "vpc" {
-    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/networking/vpc?ref=0.1.11"
+    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/networking/vpc?ref=0.2.0"
 
     name                 = "${var.name}"
     cidr                 = "${var.vpc_cidr}"
@@ -60,7 +60,7 @@ module "vpc" {
 }
 
 module "igw" {
-    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/networking/internet_gateway?ref=0.1.11"
+    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/networking/internet_gateway?ref=0.2.0"
 
     name   = "${var.name}"
     vpc_id = "${module.vpc.id}"
@@ -74,7 +74,7 @@ module "igw" {
 }
 
 module "public_subnet" {
-    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/networking/public_subnet?ref=0.1.11"
+    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/networking/public_subnet?ref=0.2.0"
 
     name                    = "${var.name}"
     vpc_id                  = "${module.vpc.id}"
@@ -92,7 +92,7 @@ module "public_subnet" {
 }
 
 module "private_subnet" {
-    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/networking/private_subnet?ref=0.1.11"
+    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/networking/private_subnet?ref=0.2.0"
 
     name               = "${var.name}"
     vpc_id             = "${module.vpc.id}"

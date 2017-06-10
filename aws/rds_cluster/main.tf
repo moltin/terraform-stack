@@ -88,7 +88,7 @@ variable "vpc_id" {
 }
 
 module "rds_cluster" {
-    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/rds/rds_cluster?ref=0.1.11"
+    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/rds/rds_cluster?ref=0.2.0"
 
     name                         = "${var.name}"
     database_name                = "${var.database_name}"
@@ -104,7 +104,7 @@ module "rds_cluster" {
 }
 
 module "rds_cluster_instance" {
-    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/rds/rds_cluster_instance?ref=0.1.11"
+    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/rds/rds_cluster_instance?ref=0.2.0"
 
     name                       = "${var.name}"
     instance_class             = "${var.instance_class}"
@@ -114,7 +114,7 @@ module "rds_cluster_instance" {
 }
 
 module "db_subnet_group" {
-    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/rds/db_subnet_group?ref=0.1.11"
+    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/rds/db_subnet_group?ref=0.2.0"
 
     name       = "${var.name}"
     subnet_ids = "${var.subnet_ids}"
@@ -127,7 +127,7 @@ module "db_subnet_group" {
 }
 
 module "sg_rds" {
-    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/networking/security_group/sg_rds_cluster_instance?ref=0.1.11"
+    source = "git::ssh://git@github.com/moltin/terraform-modules.git//aws/networking/security_group/sg_rds_cluster_instance?ref=0.2.0"
 
     name   = "${var.name}"
     port   = "${var.port}"
