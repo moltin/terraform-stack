@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 0.1.7 (2017-08-01)
+
+### Changes
+
+* Bump version of terraform modules to 0.2.2. [Israel Sotomayor]
+
+
 ## 0.1.6 (2017-06-10)
 
 ### Changes
